@@ -1,8 +1,5 @@
 package it.progettofinale.model;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,23 +15,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Customer {
+public class Contact {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	String businessName;
-	Long vtaNumber;
-	String email;
-	String pec;
+	String name;
+	String surname;
 	String phoneNumber;
-	Contact contact;
-	Address operationalHeadquartersAddress;
-	Address registeredOfficeAddress;
-	Date insertionDate;
-	Date lastContactDate;
-	Double annualTurnOver;
-	List<Invoice> invoices;
-	
-
+	String email;
 }
