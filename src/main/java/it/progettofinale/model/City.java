@@ -26,8 +26,11 @@ public class City {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	County countyCode;
+	Long countyCode;
+	
+	String countyName;
+	
+	
 	
 
 }

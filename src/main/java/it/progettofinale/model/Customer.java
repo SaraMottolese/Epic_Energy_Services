@@ -37,7 +37,7 @@ public class Customer {
 	String pec;
 	String phoneNumber;
 	
-	Double annualTurnOver;
+	Double revenue;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
