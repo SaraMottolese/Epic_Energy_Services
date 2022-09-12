@@ -22,8 +22,8 @@ public class Address {
 	Long id;
 	String  street;
 	Integer streetNumber;
-	String city;
-	String  postalCode;
-	TownHall townHall;
+	String district; //localita'
+	String  zipCode;
+	City city; //Comune
 
 }

@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-public class District {
+public class County {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;

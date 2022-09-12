@@ -2,6 +2,6 @@ package it.progettofinale.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DistrictRepository extends JpaRepository <DistrictRepository, Long>{
+public interface CityRepository extends JpaRepository <CityRepository, Long>{
 
 }

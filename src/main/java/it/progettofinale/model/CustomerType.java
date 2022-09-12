@@ -1,6 +1,6 @@
 package it.progettofinale.model;
 
-public enum Type {
+public enum CustomerType {
 	PA, SAS, SPA, SRL
 
 }

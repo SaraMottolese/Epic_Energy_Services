@@ -1,6 +1,6 @@
 package it.progettofinale.model;
 
-public enum StateOfPayment {
+public enum PaymentStatus {
 	PAGATA, NON_PAGATA
 
 }

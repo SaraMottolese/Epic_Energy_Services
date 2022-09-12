@@ -26,7 +26,7 @@ public class Invoice {
 	Long number;
 	Double amount;
 	Customer client;
-	StateOfPayment state;
+	PaymentStatus state;
 	
 
 }
