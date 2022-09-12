@@ -13,9 +13,8 @@ public class CityService {
 	@Autowired
 	private CityRepository cityRepository;
 
-	public void save(City c) {
+	public void add(City c) {
 		cityRepository.save(c);
-		
 	}
 
 }

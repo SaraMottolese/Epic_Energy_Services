@@ -33,7 +33,7 @@ public class CountyDbLoader implements CommandLineRunner{
 		List<County> counties= new ArrayList<>();
 		counties= MyCountyFileReader.read(fileReader);
 		for (County c: counties)
-			countyService.save(c);
+			countyService.add(c);
 		}catch (FileNotFoundException e) {
 			log.error("file al path " + countyPath + " non trovato");
 			e.printStackTrace();

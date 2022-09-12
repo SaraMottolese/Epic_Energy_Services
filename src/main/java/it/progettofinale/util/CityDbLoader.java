@@ -33,7 +33,7 @@ public class CityDbLoader implements CommandLineRunner{
 		List<City> cities= new ArrayList<>();
 		cities= MyCityFileReader.read(fileReader);
 		for (City c: cities)
-			cityService.save(c);
+			cityService.add(c);
 		}catch (FileNotFoundException e) {
 			log.error("file al path " + cityPath + " non trovato");
 			e.printStackTrace();

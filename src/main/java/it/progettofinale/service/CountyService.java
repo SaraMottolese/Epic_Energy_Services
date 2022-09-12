@@ -11,7 +11,7 @@ public class CountyService {
 	@Autowired
 	private CountyRepository countyRepository;
 
-	public void save(County c) {
+	public void add(County c) {
 		countyRepository.save(c);
 		
 	}
