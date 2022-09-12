@@ -1,5 +1,13 @@
 package it.progettofinale.service;
 
-public class AddressService {
+import org.springframework.beans.factory.annotation.Autowired;
 
+import it.progettofinale.repository.AddressRepository;
+
+public class AddressService {
+	
+	@Autowired
+	private AddressRepository addressRepository;
+	
+	
 }

@@ -3,9 +3,14 @@ package it.progettofinale.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +24,18 @@ import lombok.ToString;
 @Entity
 public class Invoice {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
 	Date issuingDate;
 	Long number;
 	Double amount;
-	Customer client;
 	PaymentStatus state;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+	
+	@ManyToOne(fetch = FetchType.EAGER)//specifica la cardinalita delle relazioni
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+	Customer customer;
 	
 
 }
