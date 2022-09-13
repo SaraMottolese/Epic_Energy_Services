@@ -8,10 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import it.progettofinale.model.City;
 import it.progettofinale.model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+	Page<Customer> findAll(Pageable page);
 	
 	Optional<Customer> findByCompanyNameContains(String name);
 

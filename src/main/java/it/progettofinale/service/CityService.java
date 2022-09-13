@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.progettofinale.model.City;
@@ -19,8 +21,8 @@ public class CityService {
 		cityRepository.save(c);
 	}
 
-	public List<City> findAll() {
-		return cityRepository.findAll();
+	public Page<City> findAll(Pageable page) {
+		return cityRepository.findAll(page);
 	}
 
 	public Optional<City> findById(Long id) {
@@ -32,6 +34,6 @@ public class CityService {
 	}
 	
 	public Optional<City> findByName(String name){
-		return cityRepository.findByName(name);
+		return cityRepository.findByNameContains(name);
 	}
 }

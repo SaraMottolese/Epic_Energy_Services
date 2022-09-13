@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.progettofinale.model.City;
 import it.progettofinale.model.Customer;
 import it.progettofinale.service.CustomerService;
 
@@ -42,9 +43,9 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getall")
-	public ResponseEntity<List<Customer>> getAll() {
-		List<Customer> customerList = customerservice.findAll();
-		return new ResponseEntity<List<Customer>>(customerList, HttpStatus.OK);
+	public ResponseEntity<Page<Customer>> getAll(Pageable page) {
+		Page<Customer> customerList = customerservice.findAll(page);
+		return new ResponseEntity<Page<Customer>>(customerList, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")
