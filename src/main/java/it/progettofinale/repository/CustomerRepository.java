@@ -4,19 +4,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import it.progettofinale.model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-	@Query("SELECT c FROM Customer c WHERE c.companyName=: '%name%'")
-	Optional<Customer> findByCompanyName(String name);
+	
+	Optional<Customer> findByCompanyNameContains(String name);
 
 	Optional<Customer> findByVtaNumber(Long vtaNumber);
 
-	Optional<List<Customer>> findByRevenue(Double revenue);
+	Page<Customer> findByRevenue (Pageable page, Double fatturato);
 
 	Optional<List<Customer>> findByRegistrationDate(Date registration);
 

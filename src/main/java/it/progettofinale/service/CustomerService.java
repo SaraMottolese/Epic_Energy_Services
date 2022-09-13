@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.progettofinale.exception.AddressException;
@@ -42,6 +44,10 @@ public class CustomerService {
 	 * gia' esistente nel db. Se esiste allora viene lanciato un errore altrimenti
 	 * il record viene salvato. Inoltre controlla anche se i campi sono null. I
 	 * campi come companyName, vtaNumber non possono essere null, gli altri si.
+	 * 
+	 * Per l'inserimento degli indirizzi controllo che il comune sia presente nel db
+	 * (che viene popolato tramite il file csv se il comune e' presente allora viene
+	 * inserito altrimenti viene generato un errore
 	 */
 	public Customer add(Customer customer) {
 		Customer newCustomer = new Customer();
@@ -84,21 +90,35 @@ public class CustomerService {
 			throw new CustomerException("Cliente gia' presente nel database");
 	}
 
-	/*
-	 * Non do la possibilita' di modificare ne il companyName ne il vtaNumber in
-	 * quanto sono univoci e per legge non possono cambiare
-	 */
-
 	public Customer update(Customer customer) {
 		Optional<Customer> customerResult = customerRepository.findById(customer.getId());
 		if (customerResult.isPresent()) {
 			Customer customerUpdate = customerResult.get();
+			customerUpdate.setCompanyName(customer.getCompanyName());
+			customerUpdate.setVtaNumber(customer.getVtaNumber());
 			customerUpdate.setEmail(customer.getEmail());
 			customerUpdate.setPec(customer.getPec());
 			customerUpdate.setPhoneNumber(customer.getPhoneNumber());
 			customerUpdate.setContact(customer.getContact());
-			customerUpdate.setOperationalHeadquartersAddress(customer.getOperationalHeadquartersAddress());
-			customerUpdate.setRegisteredOfficeAddress(customer.getRegisteredOfficeAddress());
+			Address operationalAddress = customer.getOperationalHeadquartersAddress();
+			City city = operationalAddress.getCity();
+			Optional<City> cityDb = cityRepository.findByName(city.getName());
+			if (cityDb.isPresent()) {
+				City cityResult = cityDb.get();
+				operationalAddress.setCity(cityResult);
+				customerUpdate.setOperationalHeadquartersAddress(operationalAddress);
+			} else
+				throw new AddressException("Comune non trovato");
+
+			Address registeredAddress = customer.getOperationalHeadquartersAddress();
+			City city1 = registeredAddress.getCity();
+			Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
+			if (cityDb.isPresent()) {
+				City cityResult = cityDb.get();
+				registeredAddress.setCity(cityResult);
+				customerUpdate.setRegisteredOfficeAddress(registeredAddress);
+			} else
+				throw new AddressException("Comune non trovato");
 			customerUpdate.setRegistrationDate(customer.getRegistrationDate());
 			customerUpdate.setLastContactDate(customer.getLastContactDate());
 			customerUpdate.setRevenue(customer.getRevenue());
@@ -124,16 +144,31 @@ public class CustomerService {
 	}
 
 	/***************** FILTRI RICERCA *****************/
-	public Optional<Customer> findByCompanyName(String name) {
-		return customerRepository.findByCompanyName(name);
+
+	public Customer findByCompanyName(String name) {
+		Optional<Customer> customerResult = customerRepository.findByCompanyNameContains(name);
+		if (customerResult.isPresent()) {
+			Customer customer = customerResult.get();
+			return customer;
+		} else
+			throw new CustomerException("Cliente non trovato");
 	}
 
-	public Optional<Customer> findByVtaNumber(Long vtaNumber) {
-		return customerRepository.findByVtaNumber(vtaNumber);
+	public Customer findByVtaNumber(Long vtaNumber) {
+		Optional<Customer> customerResult = customerRepository.findByVtaNumber(vtaNumber);
+		if (customerResult.isPresent()) {
+			Customer customer = customerResult.get();
+			return customer;
+		} else
+			throw new CustomerException("Cliente non trovato");
 	}
 
-	public Optional<List<Customer>> findByRevenue(Double revenue) {
-		return customerRepository.findByRevenue(revenue);
+	public Page<Customer> findByRevenue(Pageable page, Double revenue) {
+		Page<Customer> customerResult = customerRepository.findByRevenue(page, revenue);
+		if (customerResult != null)
+			return customerResult;
+		else
+			throw new CustomerException("Nessun cliente trovato");
 	}
 
 	public Optional<List<Customer>> findByRegistrationDate(Date registration) {
