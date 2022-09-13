@@ -1,5 +1,7 @@
 package it.progettofinale.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import it.progettofinale.model.Address;
@@ -12,6 +14,10 @@ public class AddressService {
 
 	public void add(Address address) {
 		addressRepository.save(address);
+	}
+	
+	public Optional <Address> findByCityId(Long id){
+		return addressRepository.findByCity_Id(id);
 	}
 
 }

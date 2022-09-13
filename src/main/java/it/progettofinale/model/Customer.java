@@ -1,6 +1,6 @@
 package it.progettofinale.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -43,17 +43,17 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	Address operationalHeadquartersAddress;
 
-	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	Address registeredOfficeAddress;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date registrationDate;
+	LocalDate registrationDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date lastContactDate;
+	LocalDate lastContactDate;
 
 	@OneToMany(mappedBy = "customer",cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE,
 			CascadeType.REFRESH }, fetch = FetchType.EAGER)

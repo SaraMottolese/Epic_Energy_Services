@@ -7,8 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.progettofinale.exception.AddressException;
 import it.progettofinale.exception.CustomerException;
+import it.progettofinale.model.Address;
+import it.progettofinale.model.City;
 import it.progettofinale.model.Customer;
+import it.progettofinale.repository.AddressRepository;
 import it.progettofinale.repository.CityRepository;
 import it.progettofinale.repository.CountyRepository;
 import it.progettofinale.repository.CustomerRepository;
@@ -28,6 +32,8 @@ public class CustomerService {
 
 	@Autowired
 	private InvoiceRepository invoiceRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 
 	/***************** CRUD *****************/
 
@@ -40,7 +46,7 @@ public class CustomerService {
 	public Customer add(Customer customer) {
 		Customer newCustomer = new Customer();
 		Optional<Customer> customerResult = customerRepository.findByVtaNumber(customer.getVtaNumber());
-		if (customerResult.isPresent()) {
+		if (!customerResult.isPresent()) {
 			if (customer.getCompanyName() != null)
 				newCustomer.setCompanyName(customer.getCompanyName());
 			if (customer.getVtaNumber() != null)
@@ -49,8 +55,26 @@ public class CustomerService {
 			newCustomer.setPec(customer.getPec());
 			newCustomer.setPhoneNumber(customer.getPhoneNumber());
 			newCustomer.setContact(customer.getContact());
-			newCustomer.setOperationalHeadquartersAddress(customer.getOperationalHeadquartersAddress());
-			newCustomer.setRegisteredOfficeAddress(customer.getRegisteredOfficeAddress());
+
+			Address operationalAddress = customer.getOperationalHeadquartersAddress();
+			City city = operationalAddress.getCity();
+			Optional<City> cityDb = cityRepository.findByName(city.getName());
+			if (cityDb.isPresent()) {
+				City cityResult = cityDb.get();
+				operationalAddress.setCity(cityResult);
+				newCustomer.setOperationalHeadquartersAddress(operationalAddress);
+			} else
+				throw new AddressException("Comune non trovato");
+
+			Address registeredAddress = customer.getOperationalHeadquartersAddress();
+			City city1 = registeredAddress.getCity();
+			Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
+			if (cityDb.isPresent()) {
+				City cityResult = cityDb.get();
+				registeredAddress.setCity(cityResult);
+				newCustomer.setRegisteredOfficeAddress(registeredAddress);
+			} else
+				throw new AddressException("Comune non trovato");
 			newCustomer.setRegistrationDate(customer.getRegistrationDate());
 			newCustomer.setLastContactDate(customer.getLastContactDate());
 			newCustomer.setRevenue(customer.getRevenue());
@@ -94,22 +118,25 @@ public class CustomerService {
 			throw new CustomerException(
 					"Impossibile eliminare il record del cliente in quanto non presente nel database");
 	}
-	
-	public List<Customer> findAll(){
+
+	public List<Customer> findAll() {
 		return customerRepository.findAll();
 	}
-	
+
 	/***************** FILTRI RICERCA *****************/
-	public Optional<Customer> findByCompanyName(String name){
+	public Optional<Customer> findByCompanyName(String name) {
 		return customerRepository.findByCompanyName(name);
 	}
-	public Optional<Customer> findByVtaNumber(Long vtaNumber){
+
+	public Optional<Customer> findByVtaNumber(Long vtaNumber) {
 		return customerRepository.findByVtaNumber(vtaNumber);
 	}
-	public Optional<List<Customer>> findByRevenue(Double revenue){
+
+	public Optional<List<Customer>> findByRevenue(Double revenue) {
 		return customerRepository.findByRevenue(revenue);
 	}
-	public Optional<List<Customer>> findByRegistrationDate(Date registration){
+
+	public Optional<List<Customer>> findByRegistrationDate(Date registration) {
 		return customerRepository.findByRegistrationDate(registration);
 	}
 	/***************** ORDINE RISULTATI *****************/

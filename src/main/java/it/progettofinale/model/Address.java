@@ -29,8 +29,8 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	
-	@ManyToOne(cascade = { CascadeType.DETACH,CascadeType.REFRESH
-    }, fetch = FetchType.EAGER)
+	@ManyToOne//(cascade = { CascadeType.DETACH,CascadeType.REFRESH
+   // }, fetch = FetchType.EAGER)
 	City city; //Comune
 
 }
