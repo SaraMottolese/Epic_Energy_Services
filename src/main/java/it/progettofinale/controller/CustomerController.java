@@ -48,30 +48,34 @@ public class CustomerController {
 		return new ResponseEntity<Page<Customer>>(customerList, HttpStatus.OK);
 	}
 
+	/*
+	 * cancellando un cliente verranno cancellate anche tutte le fatture relative ad esso
+	 */
+	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> delete(@PathVariable Long id) {
 		customerservice.delete(id);
-		return new ResponseEntity<String>("Libro eliminato correttamente", HttpStatus.OK);
+		return new ResponseEntity<String>("Cliente eliminato correttamente", HttpStatus.OK);
 	}
 
 	/***************** FIND BY ****************/
-	
+
 	@GetMapping("/companyName")
-	public ResponseEntity<Customer> findByCompanyName(@RequestParam String name){
-		Customer customerFound= customerservice.findByCompanyName(name);
-			return new ResponseEntity<Customer>(customerFound,HttpStatus.OK);
+	public ResponseEntity<Customer> findByCompanyName(@RequestParam String name) {
+		Customer customerFound = customerservice.findByCompanyName(name);
+		return new ResponseEntity<Customer>(customerFound, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/vtaNumber/{vtaNumeber}")
-	public ResponseEntity<Customer> findByCompanyName(@PathVariable Long vtaNumeber){
-		Customer customerFound= customerservice.findByVtaNumber(vtaNumeber);
-			return new ResponseEntity<Customer>(customerFound,HttpStatus.OK);
+	public ResponseEntity<Customer> findByCompanyName(@PathVariable Long vtaNumeber) {
+		Customer customerFound = customerservice.findByVtaNumber(vtaNumeber);
+		return new ResponseEntity<Customer>(customerFound, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/revenue")
-	public ResponseEntity <Page<Customer>> findByRevenue(@RequestParam Double revenue, Pageable page){
-		Page<Customer> customerList= customerservice.findByRevenue(page, revenue);
-		return new ResponseEntity <Page<Customer>> (customerList, HttpStatus.OK);
+	public ResponseEntity<Page<Customer>> findByRevenue(@RequestParam Double revenue, Pageable page) {
+		Page<Customer> customerList = customerservice.findByRevenue(page, revenue);
+		return new ResponseEntity<Page<Customer>>(customerList, HttpStatus.OK);
 	}
 
 }

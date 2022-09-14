@@ -64,7 +64,7 @@ public class CustomerService {
 
 			Address operationalAddress = customer.getOperationalHeadquartersAddress();
 			City city = operationalAddress.getCity();
-			Optional<City> cityDb = cityRepository.findByNameContains(city.getName());
+			Optional<City> cityDb = cityRepository.findByName(city.getName());
 			if (cityDb.isPresent()) {
 				City cityResult = cityDb.get();
 				operationalAddress.setCity(cityResult);
@@ -74,7 +74,7 @@ public class CustomerService {
 
 			Address registeredAddress = customer.getOperationalHeadquartersAddress();
 			City city1 = registeredAddress.getCity();
-			Optional<City> cityDb1 = cityRepository.findByNameContains(city1.getName());
+			Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
 			if (cityDb.isPresent()) {
 				City cityResult = cityDb.get();
 				registeredAddress.setCity(cityResult);
@@ -102,7 +102,7 @@ public class CustomerService {
 			customerUpdate.setContact(customer.getContact());
 			Address operationalAddress = customer.getOperationalHeadquartersAddress();
 			City city = operationalAddress.getCity();
-			Optional<City> cityDb = cityRepository.findByNameContains(city.getName());
+			Optional<City> cityDb = cityRepository.findByName(city.getName());
 			if (cityDb.isPresent()) {
 				City cityResult = cityDb.get();
 				operationalAddress.setCity(cityResult);
@@ -112,7 +112,7 @@ public class CustomerService {
 
 			Address registeredAddress = customer.getOperationalHeadquartersAddress();
 			City city1 = registeredAddress.getCity();
-			Optional<City> cityDb1 = cityRepository.findByNameContains(city1.getName());
+			Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
 			if (cityDb.isPresent()) {
 				City cityResult = cityDb.get();
 				registeredAddress.setCity(cityResult);
