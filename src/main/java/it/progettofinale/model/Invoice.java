@@ -39,7 +39,7 @@ public class Invoice {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade =CascadeType.MERGE)//specifica la cardinalita delle relazioni
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	@JsonIgnore
+	//@JsonIgnore
 	Customer customer;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

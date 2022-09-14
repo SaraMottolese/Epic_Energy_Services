@@ -26,8 +26,9 @@ public class InvoiceService {
 	private CustomerRepository customerRepository;
 
 	public Invoice add(Invoice invoice) {
+		String c= invoice.getCustomer().getCompanyName();
 		Optional<Customer> customerResult = customerRepository
-				.findByCompanyNameContains(invoice.getCustomer().getCompanyName());
+				.findByCompanyNameContains(c);
 		if (customerResult.isPresent()) {
 			invoice.setCustomer(customerResult.get());
 			Optional<List<Invoice>> invoices = invoiceRepository.findByCustomerId(invoice.getCustomer().getId());
