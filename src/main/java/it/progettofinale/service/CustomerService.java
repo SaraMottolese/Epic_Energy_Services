@@ -90,45 +90,73 @@ public class CustomerService {
 			throw new CustomerException("Cliente gia' presente nel database");
 	}
 
+	/*
+	 * il metodo permette la modifica sia del companyName sia del vtaNumber. Se
+	 * fosse un gestionale per l'agenzia delle entrate non bisognerebbe permettere
+	 * questa modifica in quanto nella vita reale non e' possibile farlo. Pensando
+	 * l'applicazione come un gestionale privato (magari per un commercialista)
+	 * allora possiamo lasciarglielo fare considerando che potrebbe esserci un
+	 * errore umano dovuto a disattenzione
+	 * 
+	 * il metodo controlla tramite id del cliente se il cliente esiste. se esiste controlla se 
+	 * i campi inseriti sono null, se cosi' fosse allora non vengono aggiornati
+	 * se il campo e' diverso da null allora avviene l'aggiornamento
+	 * 
+	 */
 	public Customer update(Customer customer) {
 		Optional<Customer> customerResult = customerRepository.findById(customer.getId());
 		if (customerResult.isPresent()) {
 			Customer customerUpdate = customerResult.get();
-			customerUpdate.setCompanyName(customer.getCompanyName());
-			customerUpdate.setVtaNumber(customer.getVtaNumber());
-			customerUpdate.setEmail(customer.getEmail());
-			customerUpdate.setPec(customer.getPec());
-			customerUpdate.setPhoneNumber(customer.getPhoneNumber());
-			customerUpdate.setContact(customer.getContact());
-			Address operationalAddress = customer.getOperationalHeadquartersAddress();
-			City city = operationalAddress.getCity();
-			Optional<City> cityDb = cityRepository.findByName(city.getName());
-			if (cityDb.isPresent()) {
-				City cityResult = cityDb.get();
-				operationalAddress.setCity(cityResult);
-				customerUpdate.setOperationalHeadquartersAddress(operationalAddress);
-			} else
-				throw new AddressException("Comune non trovato");
-
-			Address registeredAddress = customer.getOperationalHeadquartersAddress();
-			City city1 = registeredAddress.getCity();
-			Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
-			if (cityDb.isPresent()) {
-				City cityResult = cityDb.get();
-				registeredAddress.setCity(cityResult);
-				customerUpdate.setRegisteredOfficeAddress(registeredAddress);
-			} else
-				throw new AddressException("Comune non trovato");
-			customerUpdate.setRegistrationDate(customer.getRegistrationDate());
-			customerUpdate.setLastContactDate(customer.getLastContactDate());
-			customerUpdate.setRevenue(customer.getRevenue());
-			customerUpdate.setInvoices(customer.getInvoices());
+			if (customer.getCompanyName() != null)
+				customerUpdate.setCompanyName(customer.getCompanyName());
+			if (customer.getVtaNumber() != null)
+				customerUpdate.setVtaNumber(customer.getVtaNumber());
+			if (customer.getEmail() != null)
+				customerUpdate.setEmail(customer.getEmail());
+			if (customer.getPec() != null)
+				customerUpdate.setPec(customer.getPec());
+			if (customer.getPhoneNumber() != null)
+				customerUpdate.setPhoneNumber(customer.getPhoneNumber());
+			if (customer.getContact() != null)
+				customerUpdate.setContact(customer.getContact());
+			if (customer.getOperationalHeadquartersAddress() != null) {
+				Address operationalAddress = customer.getOperationalHeadquartersAddress();
+				City city = operationalAddress.getCity();
+				Optional<City> cityDb = cityRepository.findByName(city.getName());
+				if (cityDb.isPresent()) {
+					City cityResult = cityDb.get();
+					operationalAddress.setCity(cityResult);
+					customerUpdate.setOperationalHeadquartersAddress(operationalAddress);
+				} else
+					throw new AddressException("Comune non trovato");
+			}
+			if (customer.getRegisteredOfficeAddress() != null) {
+				Address registeredAddress = customer.getRegisteredOfficeAddress();
+				City city1 = registeredAddress.getCity();
+				Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
+				if (cityDb1.isPresent()) {
+					City cityResult = cityDb1.get();
+					registeredAddress.setCity(cityResult);
+					customerUpdate.setRegisteredOfficeAddress(registeredAddress);
+				} else
+					throw new AddressException("Comune non trovato");
+			}
+			if (customer.getRegistrationDate() != null)
+				customerUpdate.setRegistrationDate(customer.getRegistrationDate());
+			if (customer.getLastContactDate() != null)
+				customerUpdate.setLastContactDate(customer.getLastContactDate());
+			if (customer.getRevenue() != null)
+				customerUpdate.setRevenue(customer.getRevenue());
 			return customerRepository.save(customerUpdate);
 		} else
 			throw new CustomerException(
 					"Impossibile aggiornare il record del cliente in quanto non presente nel database");
 
 	}
+	
+	/*
+	 * il metodo controlla che l'id sia presente nel db. se e' presente lo elimina altrimenti lancia un errore
+	 */
 
 	public void delete(Long id) {
 		Optional<Customer> customerResult = customerRepository.findById(id);
