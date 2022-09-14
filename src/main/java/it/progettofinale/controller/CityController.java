@@ -29,7 +29,7 @@ public class CityController {
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<City> getAll(@PathVariable Long id){
+	public ResponseEntity<City> getById(@PathVariable Long id){
 		Optional<City> cityResult=cityService.findById(id);
 		City city= cityResult.get();
 		return new ResponseEntity<City>(city, HttpStatus.OK);
@@ -37,7 +37,7 @@ public class CityController {
 	
 	@GetMapping("/getByName")
 	public ResponseEntity<City> getByName(@RequestParam String name){
-		Optional<City> cityResult=cityService.findByName(name);
+		Optional<City> cityResult=cityService.findByExtactName(name);
 		City city= cityResult.get();
 		return new ResponseEntity<City>(city, HttpStatus.OK);
 	}

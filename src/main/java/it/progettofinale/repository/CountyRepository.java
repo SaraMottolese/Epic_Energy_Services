@@ -11,8 +11,9 @@ public interface CountyRepository extends JpaRepository<County, Long>{
 	
 	Optional<County> findById(Long id);
 	
-	@Query("SELECT c FROM county c WHERE c.name=: '%name%'")
 	Optional<County> findByName(String name);
+	
+	Optional<County> findByNameContains(String name);
 
 	
 }

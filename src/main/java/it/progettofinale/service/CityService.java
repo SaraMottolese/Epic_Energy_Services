@@ -33,7 +33,11 @@ public class CityService {
 		return cityRepository.findByCountyName(name);
 	}
 	
-	public Optional<City> findByName(String name){
+	public Optional<City> findByNameContains(String name){
 		return cityRepository.findByNameContains(name);
+	}
+	
+	public Optional<City> findByExtactName(String name){
+		return cityRepository.findByName(name);
 	}
 }

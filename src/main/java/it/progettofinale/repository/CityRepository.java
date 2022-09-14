@@ -17,6 +17,8 @@ public interface CityRepository extends JpaRepository<City, Long> {
 	Optional<City> findById(Long id);
 
 	Optional<City> findByNameContains(String name);
+	
+	Optional<City> findByName(String name);
 
 	@Query("SELECT c FROM city c WHERE c.county_name=: '%name%'")
 	Optional<List<City>> findByCountyName(String name);
