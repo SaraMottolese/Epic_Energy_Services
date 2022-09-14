@@ -13,6 +13,7 @@ import it.progettofinale.exception.AddressException;
 import it.progettofinale.exception.CustomerException;
 import it.progettofinale.model.Address;
 import it.progettofinale.model.City;
+import it.progettofinale.model.Contact;
 import it.progettofinale.model.Customer;
 import it.progettofinale.repository.AddressRepository;
 import it.progettofinale.repository.CityRepository;
@@ -61,7 +62,6 @@ public class CustomerService {
 			newCustomer.setPec(customer.getPec());
 			newCustomer.setPhoneNumber(customer.getPhoneNumber());
 			newCustomer.setContact(customer.getContact());
-
 			Address operationalAddress = customer.getOperationalHeadquartersAddress();
 			City city = operationalAddress.getCity();
 			Optional<City> cityDb = cityRepository.findByName(city.getName());
@@ -98,9 +98,9 @@ public class CustomerService {
 	 * allora possiamo lasciarglielo fare considerando che potrebbe esserci un
 	 * errore umano dovuto a disattenzione
 	 * 
-	 * il metodo controlla tramite id del cliente se il cliente esiste. se esiste controlla se 
-	 * i campi inseriti sono null, se cosi' fosse allora non vengono aggiornati
-	 * se il campo e' diverso da null allora avviene l'aggiornamento
+	 * il metodo controlla tramite id del cliente se il cliente esiste. se esiste
+	 * controlla se i campi inseriti sono null, se cosi' fosse allora non vengono
+	 * aggiornati se il campo e' diverso da null allora avviene l'aggiornamento
 	 * 
 	 */
 	public Customer update(Customer customer) {
@@ -151,11 +151,11 @@ public class CustomerService {
 		} else
 			throw new CustomerException(
 					"Impossibile aggiornare il record del cliente in quanto non presente nel database");
-
 	}
-	
+
 	/*
-	 * il metodo controlla che l'id sia presente nel db. se e' presente lo elimina altrimenti lancia un errore
+	 * il metodo controlla che l'id sia presente nel db. se e' presente lo elimina
+	 * altrimenti lancia un errore
 	 */
 
 	public void delete(Long id) {

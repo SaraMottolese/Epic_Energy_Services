@@ -63,7 +63,7 @@ public class Customer {
 	@Enumerated(EnumType.STRING)
 	CustomerType type;
 	
-	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	Contact contact;
 
 }
