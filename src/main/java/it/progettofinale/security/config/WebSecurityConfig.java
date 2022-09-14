@@ -16,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import it.progettofinale.security.service.UserDetailsServiceImpl;
 import it.progettofinale.security.util.AuthTokenFilter;
-import it.progettofinale.service.UserDetailsServiceImpl;
 //classe di configurazione 
 @Configuration
 @EnableWebSecurity // per l'abilitazione della secuity

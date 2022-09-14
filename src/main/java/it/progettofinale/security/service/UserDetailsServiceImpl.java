@@ -1,4 +1,4 @@
-package it.progettofinale.service;
+package it.progettofinale.security.service;
 
 import java.util.Optional;
 
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.progettofinale.security.model.User;
 import it.progettofinale.security.repository.UserRepository;
-import it.progettofinale.security.service.UserDetailsImpl;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
