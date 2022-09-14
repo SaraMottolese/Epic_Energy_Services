@@ -62,25 +62,28 @@ public class CustomerService {
 			newCustomer.setPec(customer.getPec());
 			newCustomer.setPhoneNumber(customer.getPhoneNumber());
 			newCustomer.setContact(customer.getContact());
-			Address operationalAddress = customer.getOperationalHeadquartersAddress();
-			City city = operationalAddress.getCity();
-			Optional<City> cityDb = cityRepository.findByName(city.getName());
-			if (cityDb.isPresent()) {
-				City cityResult = cityDb.get();
-				operationalAddress.setCity(cityResult);
-				newCustomer.setOperationalHeadquartersAddress(operationalAddress);
-			} else
-				throw new AddressException("Comune non trovato");
-
-			Address registeredAddress = customer.getOperationalHeadquartersAddress();
-			City city1 = registeredAddress.getCity();
-			Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
-			if (cityDb.isPresent()) {
-				City cityResult = cityDb.get();
-				registeredAddress.setCity(cityResult);
-				newCustomer.setRegisteredOfficeAddress(registeredAddress);
-			} else
-				throw new AddressException("Comune non trovato");
+			if (customer.getRegisteredOfficeAddress() != null) {
+				Address registeredAddress = customer.getRegisteredOfficeAddress();
+				City city = registeredAddress.getCity();
+				Optional<City> cityDb = cityRepository.findByName(city.getName());
+				if (cityDb.isPresent()) {
+					City cityResult = cityDb.get();
+					registeredAddress.setCity(cityResult);
+					newCustomer.setRegisteredOfficeAddress(registeredAddress);
+				} else
+					throw new AddressException("Comune non trovato");
+			}
+			if (customer.getOperationalHeadquartersAddress() != null) {
+				Address operationalAddress = customer.getOperationalHeadquartersAddress();
+				City city1 = operationalAddress.getCity();
+				Optional<City> cityDb1 = cityRepository.findByName(city1.getName());
+				if (cityDb1.isPresent()) {
+					City cityResult = cityDb1.get();
+					operationalAddress.setCity(cityResult);
+					newCustomer.setRegisteredOfficeAddress(operationalAddress);
+				} else
+					throw new AddressException("Comune non trovato");
+			}
 			newCustomer.setRegistrationDate(customer.getRegistrationDate());
 			newCustomer.setLastContactDate(customer.getLastContactDate());
 			newCustomer.setRevenue(customer.getRevenue());

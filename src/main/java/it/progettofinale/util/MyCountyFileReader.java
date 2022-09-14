@@ -14,8 +14,6 @@ import it.progettofinale.service.CountyService;
 
 public class MyCountyFileReader {
 	
-	@Autowired
-	private CountyService countyService;
 	
 	public static List<County> read(FileReader file) throws IOException{
 		CSVReader reader = new CSVReader(file, ',', '\'', 1);
