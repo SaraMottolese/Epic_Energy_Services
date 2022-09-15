@@ -2,6 +2,7 @@ package it.progettofinale.util;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class MyCustomerFileReader {
 			customer.setEmail(record[2]);
 			customer.setPec(record[3]);
 			customer.setPhoneNumber(record[4]);
+			customer.setRegistrationDate(LocalDate.parse(record[5]));
+			customer.setLastContactDate(LocalDate.parse(record[6]));
+			customer.setRevenue(Double.parseDouble(record[7]));
 			customerList.add(customer);
 			
 		}

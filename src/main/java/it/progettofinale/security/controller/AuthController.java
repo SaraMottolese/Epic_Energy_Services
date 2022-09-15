@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,11 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.progettofinale.exception.CrmException;
 import it.progettofinale.security.model.LoginRequest;
 import it.progettofinale.security.model.LoginResponse;
 import it.progettofinale.security.model.Role;
@@ -33,7 +30,6 @@ import it.progettofinale.security.repository.RoleRepository;
 import it.progettofinale.security.service.UserDetailsImpl;
 import it.progettofinale.security.service.UserService;
 import it.progettofinale.security.util.JwtUtils;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -51,7 +47,6 @@ public class AuthController {
 	private JwtUtils jwtUtils;
 
 	@PostMapping("/login")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@Operation(summary = "login", description = "Il metodo permette l'autenticazione")
 	@ApiResponse(responseCode = "200", description = "autenticazione avvenuta")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -73,7 +68,6 @@ public class AuthController {
 	}
 
 	@PostMapping("/signupform")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@Operation(summary = "registrazione", description = "Il metodo permette di aggiungere un nuovo User")
 	@ApiResponse(responseCode = "200", description = "User aggiunto")
 	public ResponseEntity<User> addUser(@RequestBody SignupRequest signUpRequest) {
