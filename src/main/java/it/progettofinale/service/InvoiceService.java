@@ -88,4 +88,8 @@ public class InvoiceService {
 	public Page<List<Invoice>> findByYear(Integer year, Pageable page){
 		return invoiceRepository.findByYear(year, page);
 	}
+	
+	public Optional<Invoice> findById(Long id) {
+		return invoiceRepository.findById(id);
+	}
 }
