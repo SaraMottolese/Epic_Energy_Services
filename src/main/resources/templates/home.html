@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fe0222bProgettoFinale</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/home.scss">
+</head>
+
+<body>
+    <!--~~~~~~~~~~~~~~~~~~
+      —()"""()
+    -("(,’o’,)")
+      –(")—(")
+ ~~~~~~~~~~~~~~~~~~-->
+
+
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" id="primo">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home <i class="bi bi-house-door"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login <i
+                                class="bi bi-box-arrow-in-right"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/signup']" routerLinkActive="active">Signup <i
+                                class="bi bi-person-plus"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/utenti']" routerLinkActive="active">Utenti<i
+                                class="bi bi-person"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/clienti']" routerLinkActive="active">Clienti <i
+                                class="bi bi-card-checklist"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/fatture']" routerLinkActive="active">Fatture <i
+                                class="bi bi-calculator"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-danger" (click)="logout()">Logout <i
+                                class="bi bi-box-arrow-left"></i></button>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">Benvenuto nel tuo CRM</h2>
+
+        <div class="row row-cols-1 row-cols-sm-3 align-items-stretch g-4 py-5">
+            <div class="col">
+                <div class="card card-cover overflow-hidden text-white bg-dark rounded-4 shadow-lg" id="primaImg" [routerLink]="['/fatture']" routerLinkActive="active">
+                    <div class="d-flex flex-column p-5 pb-3 text-white text-shadow-1" id="interno1">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Fatture</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-4 shadow-lg" id="secondaImg" [routerLink]="['/utenti']" routerLinkActive="active">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1" id="interno2">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Utenti</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-4 shadow-lg" id="terzaImg" [routerLink]="['/clienti']" routerLinkActive="active">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1" id="interno3">
+                        <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Clienti</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

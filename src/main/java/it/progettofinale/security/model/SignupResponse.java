@@ -1,5 +1,6 @@
 package it.progettofinale.security.model;
 
+
 public class SignupResponse {
     private String message;
 

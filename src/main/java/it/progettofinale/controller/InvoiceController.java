@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,12 +32,14 @@ public class InvoiceController {
 	private InvoiceService invoiceService;
 	
 	@PostMapping("/add")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Invoice> add(@RequestBody Invoice invoice){
 		Invoice addInvoice= invoiceService.add(invoice);
 		return new ResponseEntity<Invoice>(addInvoice,HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/update")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Invoice> update(@RequestBody Invoice invoice){
 		Invoice invoiceUpdate= invoiceService.update(invoice);
 		return new ResponseEntity<Invoice>(invoiceUpdate,HttpStatus.OK);
@@ -47,12 +50,14 @@ public class InvoiceController {
 	 * una volta emesse, possono essere stornate al massimo
 	 */
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> delete(@PathVariable Long id){
 		invoiceService.delete(id);
 		return new ResponseEntity<String>("Fattura eliminata correttamente", HttpStatus.OK);
 	}
 	
 	@GetMapping("/getAll")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Page<Invoice>> findAll(Pageable page){
 		Page<Invoice> invoiceList= invoiceService.findAll(page);
 		return new ResponseEntity<Page<Invoice>>(invoiceList, HttpStatus.OK);
@@ -61,18 +66,21 @@ public class InvoiceController {
 	/***************** FILTRI RICERCA *****************/
 	
 	@GetMapping("/companyInvoice/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Page<List<Invoice>>> findByCustomerId(@PathVariable Long id, Pageable page) {
 		Page<List<Invoice>> invoiceList= invoiceService.findByCustomerId(id, page);
 		return new ResponseEntity<Page<List<Invoice>>>(invoiceList, HttpStatus.OK);
 	}
 	
 	@GetMapping("/state")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Page<List<Invoice>>> findByState (@RequestParam PaymentStatus status, Pageable page){
 		Page<List<Invoice>> invoiceList= invoiceService.findByState(status, page);
 		return new ResponseEntity<Page<List<Invoice>>>(invoiceList,HttpStatus.OK);
 	}
 	
 	@GetMapping("/issuingDate")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Page<List<Invoice>>> findByIssuingDate (@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, Pageable page){
 		Page<List<Invoice>> invoiceList= invoiceService.findByIssuingDate(date, page);
 		return new ResponseEntity<Page<List<Invoice>>>(invoiceList,HttpStatus.OK);

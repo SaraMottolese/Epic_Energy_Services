@@ -6,16 +6,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import it.progettofinale.exception.CrmException;
 import it.progettofinale.security.model.LoginRequest;
@@ -23,11 +25,10 @@ import it.progettofinale.security.model.LoginResponse;
 import it.progettofinale.security.model.Role;
 import it.progettofinale.security.model.Roles;
 import it.progettofinale.security.model.SignupRequest;
-import it.progettofinale.security.model.SignupResponse;
 import it.progettofinale.security.model.User;
 import it.progettofinale.security.repository.RoleRepository;
-import it.progettofinale.security.repository.UserRepository;
 import it.progettofinale.security.service.UserDetailsImpl;
+import it.progettofinale.security.service.UserService;
 import it.progettofinale.security.util.JwtUtils;
 
 @RestController
@@ -35,16 +36,16 @@ import it.progettofinale.security.util.JwtUtils;
 public class AuthController {
 
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
+	private UserService userService;
 
 	@Autowired
 	private RoleRepository roleRepository;
 
 	@Autowired
-	JwtUtils jwtUtils;
+	private JwtUtils jwtUtils;
 
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -65,57 +66,34 @@ public class AuthController {
 		return ResponseEntity.ok(loginResponse);
 	}
 
-	@PostMapping("/signup")
-	public ResponseEntity<?> addUser(@RequestBody SignupRequest signUpRequest) {
-		BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
-		// Vedo se lo Username e l'Email non siano gia in uso
-		if (userRepository.existsByUserName(signUpRequest.getUsername())) {
-			return ResponseEntity.badRequest().body(new SignupResponse("Errore: Username già in uso!"));
-		}
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new SignupResponse("Errore: Email già in uso!"));
-		}
-		// Crea un nuovo user criptando la password
+	@PostMapping("/signupform")
+	public ResponseEntity<User> registerUserForm(@RequestBody SignupRequest signUpRequest) {
 		User user = new User();
 		user.setEmail(signUpRequest.getEmail());
 		user.setUserName(signUpRequest.getUsername());
-		user.setPassword(bCrypt.encode(signUpRequest.getPassword()));
+		String password = BCrypt.hashpw(signUpRequest.getPassword(), BCrypt.gensalt());
+		user.setPassword(password);
 		user.setName(signUpRequest.getName());
-		user.setUserName(signUpRequest.getSurname());
+		user.setSurname(signUpRequest.getSurname());
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
-		
-		// Vedo se il role inserito sia corretto
-		if (strRoles.isEmpty()) {
-			Role userRole = roleRepository.findByRoleName(Roles.ROLE_USER)
-					.orElseThrow(() -> new CrmException("Errore: Role non trovato!"));
+		// Verifica l'esistenza dei Role
+		if (signUpRequest.getRole().contains("admin")) {
+			Role userRole = roleRepository.findByRoleName(Roles.ROLE_ADMIN)
+					.orElseThrow(() -> new RuntimeException("Errore: Role non trovato!"));
 			roles.add(userRole);
-		} else {
-			for (String role : strRoles) {
-				if (role.equals("")) {
-					Role userRole = roleRepository.findByRoleName(Roles.ROLE_USER)
-							.orElseThrow(() -> new CrmException("Errore: Role non trovato!"));
-					roles.add(userRole);
-
-				} else if (role.equalsIgnoreCase("admin")) {
-					Role adminRole = roleRepository.findByRoleName(Roles.ROLE_ADMIN)
-							.orElseThrow(() -> new CrmException("Errore: Role non trovato!"));
-					roles.add(adminRole);
-
-				} else if (role.equalsIgnoreCase("user")) {
-					Role userRole = roleRepository.findByRoleName(Roles.ROLE_USER)
-							.orElseThrow(() -> new CrmException("Errore: Role non trovato!"));
-					roles.add(userRole);
-				} else {
-					throw new CrmException("Puoi inserire soltanto role 'admin' o 'user'!");
-				}
-			}
-
 		}
 
+		Role userRole = roleRepository.findByRoleName(Roles.ROLE_USER)
+				.orElseThrow(() -> new RuntimeException("Errore: Role non trovato!"));
+		roles.add(userRole);
+
+		
 		user.setRoles(roles);
-		userRepository.save(user);
-		return ResponseEntity.ok(new SignupResponse("User registrato con successo!"));
+		userService.add(user);
+		authenticateUser(new LoginRequest(signUpRequest.getUsername(), signUpRequest.getPassword()));
+//		model.setViewName("index");
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 
 }

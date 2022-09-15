@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fe0222bProgettoFinale</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/indexStylesheet.scss">
+</head>
+
+<body>
+    <!--~~~~~~~~~~~~~~~~~~
+      —()"""()
+    -("(,’o’,)")
+      –(")—(")
+ ~~~~~~~~~~~~~~~~~~-->
+
+
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" id="primo">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home <i class="bi bi-house-door"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active">Login <i
+                                class="bi bi-box-arrow-in-right"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/signup']" routerLinkActive="active">Signup <i
+                                class="bi bi-person-plus"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/utenti']" routerLinkActive="active">Utenti<i
+                                class="bi bi-person"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/clienti']" routerLinkActive="active">Clienti <i
+                                class="bi bi-card-checklist"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/fatture']" routerLinkActive="active">Fatture <i
+                                class="bi bi-calculator"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-danger" (click)="logout()">Logout <i
+                                class="bi bi-box-arrow-left"></i></button>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <main class="form-signin w-100 m-auto">
+                <form #form="ngForm" (ngSubmit)="onsubmit(form.value)">
+                    <img class="mb-4" src="https://www.levia.it/media/immagini/1655_n_logo_fatt%20in%20cloud_blu_vert_SITO%20LEVIA.png" alt="" width="72" height="57">
+                    <div class="form-floating mb-3">
+                        <input ngModel name="username" type="text" class="form-control" id="floatingInput" placeholder="Username">
+                        <label for="floatingInput">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input ngModel name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+
+                    <div class="checkbox mb-3">
+                        <label>
+                      <input type="checkbox" value="remember-me"> Ricordami
+                  </label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Accedi</button>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

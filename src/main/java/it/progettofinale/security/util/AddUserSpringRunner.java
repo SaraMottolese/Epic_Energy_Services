@@ -29,6 +29,8 @@ public class AddUserSpringRunner implements CommandLineRunner {
 
 		Role role = new Role();
 		role.setRoleName(Roles.ROLE_ADMIN);
+		Role roleUser = new Role();
+		roleUser.setRoleName(Roles.ROLE_USER);
 		User user = new User();
 		Set<Role> roles = new HashSet<>();
 		roles.add(role);
@@ -39,6 +41,7 @@ public class AddUserSpringRunner implements CommandLineRunner {
 		user.setActive(true);
 
 		roleRepository.save(role);
+		roleRepository.save(roleUser);
 		userRepository.save(user);
 
 	}

@@ -1,12 +1,11 @@
 package it.progettofinale.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.progettofinale.model.City;
 import it.progettofinale.model.Customer;
 import it.progettofinale.service.CustomerService;
 
@@ -29,6 +27,7 @@ public class CustomerController {
 	private CustomerService customerservice;
 
 	@PostMapping("/add")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	// @ApiResponse(responseCode = "200", description = "Cliente aggiunto
 	// correttamente")
 	public ResponseEntity<Customer> add(@RequestBody Customer customer) {
@@ -37,12 +36,14 @@ public class CustomerController {
 	}
 
 	@PutMapping("/update")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Customer> update(@RequestBody Customer customer) {
 		Customer customerUpdate = customerservice.update(customer);
 		return new ResponseEntity<Customer>(customerUpdate, HttpStatus.OK);
 	}
 
 	@GetMapping("/getall")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Page<Customer>> getAll(Pageable page) {
 		Page<Customer> customerList = customerservice.findAll(page);
 		return new ResponseEntity<Page<Customer>>(customerList, HttpStatus.OK);
@@ -53,6 +54,7 @@ public class CustomerController {
 	 */
 	
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> delete(@PathVariable Long id) {
 		customerservice.delete(id);
 		return new ResponseEntity<String>("Cliente eliminato correttamente", HttpStatus.OK);
@@ -61,18 +63,21 @@ public class CustomerController {
 	/***************** FIND BY ****************/
 
 	@GetMapping("/companyName")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Customer> findByCompanyName(@RequestParam String name) {
 		Customer customerFound = customerservice.findByCompanyName(name);
 		return new ResponseEntity<Customer>(customerFound, HttpStatus.OK);
 	}
 
 	@GetMapping("/vtaNumber/{vtaNumeber}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Customer> findByCompanyName(@PathVariable Long vtaNumeber) {
 		Customer customerFound = customerservice.findByVtaNumber(vtaNumeber);
 		return new ResponseEntity<Customer>(customerFound, HttpStatus.OK);
 	}
 
 	@GetMapping("/revenue")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<Page<Customer>> findByRevenue(@RequestParam Double revenue, Pageable page) {
 		Page<Customer> customerList = customerservice.findByRevenue(page, revenue);
 		return new ResponseEntity<Page<Customer>>(customerList, HttpStatus.OK);
