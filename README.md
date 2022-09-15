@@ -29,6 +29,9 @@ Le API sono documemtate con OpenApi e Swagger.
 
 ## Test
 Sono presenti dei test JUnit e MockMvc
+
+## License
+MIT ©
   
   
 
