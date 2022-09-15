@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import it.progettofinale.security.model.User;
 import it.progettofinale.security.service.UserService;
 
 @RestController
 @RequestMapping("/api/user")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
 	@Autowired
@@ -26,6 +30,8 @@ public class UserController {
 
 	@GetMapping("/getById/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Operation(summary = "trova User da id", description = "Il metodo permette di trovare un user conoscendo l'id")
+	@ApiResponse(responseCode = "200", description = "User trovato")
 	public ResponseEntity<User> findById(@PathVariable(required = true) Long id) {
 		Optional<User> find = userService.findById(id);
 		if (find.isPresent()) {
@@ -37,6 +43,8 @@ public class UserController {
 
 	@GetMapping("/getAll")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Operation(summary = "trova tutti gli User", description = "Il metodo ritorna la lista degli User")
+	@ApiResponse(responseCode = "200", description = "Lista caricata")
 	public ResponseEntity<Page<User>> getAll(Pageable page) {
 		Page<User> userList = userService.findAll(page);
 		return new ResponseEntity<Page<User>>(userList, HttpStatus.OK);
@@ -44,6 +52,8 @@ public class UserController {
 	
 	@DeleteMapping("/delete/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Operation(summary = "elimina User", description = "Il metodo permette di eliminare un user conoscendo l'id")
+	@ApiResponse(responseCode = "200", description = "user eliminato")
 	public ResponseEntity<String> delete(@PathVariable Long id){
 		Optional<User> user= userService.findById(id);
 		if(user.isPresent()) {
