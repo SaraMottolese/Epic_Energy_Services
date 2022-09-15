@@ -14,11 +14,22 @@ Sono presenti dei test JUnit e Mok
 - [Database](#Database)
 - [Modelli](#Modelli)
 - [API](#API)
-- [Spotify Authentication](#Spotify-Authentication)
-- [Resources](#Resources)
+- [Documentazione API](#Documentazione-API)
+- [Test](#Test)
 
 ## DATABASE
-Il database per le tabelle relative ai customer (clienti), alle city (comuni) e ai county(province)
+All'avvio del progetto il database viene popolato attraverso dei file csv.
+Viene 
+
+## Modelli
+###Customer
+
+## API
+All'interno del progetto è possibile trovare la collection con le chiamate Rest di Postman.
+
+## Doucemtazione API
+
+##
   
   
   
