@@ -22,7 +22,7 @@ All'avvio del progetto il database viene popolato attraverso dei file csv.
 Viene 
 
 ## Modelli
-###Customer
+### Customer
 
 ## API
 All'interno del progetto è possibile trovare la collection con le chiamate Rest di Postman.
