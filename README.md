@@ -1,7 +1,7 @@
 # BE_ProgettoFinale
 Progetto di fine corso back-end proposto da Epicode.
 Realizzare un sistema CRM per un'azienda fornitrice di energia denominata Epic Energy Services che vuole gestire i contatti con i propri clienti business.
-Il sistema, basato su Web Service REST Spring Boot e database PostgreSQL, deve permettere di gestire un elenco dei clienti e le relative fatture.
+Il sistema, basato su Web Service REST, Spring Boot e database PostgreSQL, deve permettere di gestire un elenco dei clienti e le relative fatture.
 
 Il sistema chiede un'autenticazione, i ruoli che uno utente può avere sono di tipo admin e di tipo user. Gli admin possono eseguire ogni tipo di modifica e cancellazione di dati mentre agli utenti di tipo user sono permessi soltanto le operazioni di lettura.
 
