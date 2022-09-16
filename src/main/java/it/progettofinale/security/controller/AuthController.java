@@ -13,10 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -95,8 +98,9 @@ public class AuthController {
 		user.setRoles(roles);
 		userService.add(user);
 		authenticateUser(new LoginRequest(signUpRequest.getUsername(), signUpRequest.getPassword()));
-//		model.setViewName("index");
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
+	
+
 
 }

@@ -28,15 +28,8 @@ public class CustomerService {
 	private CustomerRepository customerRepository;
 
 	@Autowired
-	private CountyRepository countyRepository;
-
-	@Autowired
 	private CityRepository cityRepository;
 
-	@Autowired
-	private InvoiceRepository invoiceRepository;
-	@Autowired
-	private AddressRepository addressRepository;
 
 	/***************** CRUD *****************/
 
