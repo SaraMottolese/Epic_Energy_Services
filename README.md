@@ -23,7 +23,7 @@ All'avvio del progetto il database (clienti, comuni, province) viene popolato at
 
 - Per una fattura è possibile modificare solo lo stato (pagata o non pagata) in quanto di solito i dati di una fattura emessa non possono essere modificata, in caso di errore la fattura viene annullata. 
 
-##  Doucemtazione API
+##  Docuemtazione API
 All'interno del progetto è possibile trovare la collection con le chiamate Rest di Postman.
 Le API sono documemtate con OpenApi e Swagger.
 
