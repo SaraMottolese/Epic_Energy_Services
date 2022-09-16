@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,7 +32,9 @@ import lombok.ToString;
 @Entity
 public class Customer {
 
+	@NotNull
 	String companyName;
+	@NotNull
 	Long vtaNumber;
 	String email;
 	String pec;
