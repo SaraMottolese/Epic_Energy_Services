@@ -9,13 +9,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import it.progettofinale.model.Customer;
 import it.progettofinale.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
-@Component
+@Component // indica che la classe e' un bean
 public class CustomerDbLoader implements CommandLineRunner {
 
 	@Autowired
